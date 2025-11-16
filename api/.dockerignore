@@ -1,0 +1,9 @@
+bin/
+obj/
+.git
+.gitignore
+*.user
+*.pdb
+Dockerfile
+docker-compose*
+.env
