@@ -1,0 +1,73 @@
+# =========================
+# Dotnet Core
+# =========================
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# =========================
+# Node / React
+# =========================
+node_modules/
+bower_components/
+build/
+dist/
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/wwwroot/node_modules
+**/*.backup.*
+**/*.back.*
+
+# =========================
+# VSCode
+# =========================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+*.vsix
+.ionide/
+
+# =========================
+# System / OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Env & Secrets (CRITICAL!)
+# =========================
+.env
+.env.local
+.env.*.local
+secrets/
+config/*.secret.json
+*.key
+*.pem
+*.pfx
+
+# =========================
+# Docker
+# =========================
+docker-compose.override.yml
+*.log
+docker/temp/
+docker/tmp/
+
+# =========================
+# Others
+# =========================
+*.sublime*
+*.psd
+*.sketch
+*.thumb
