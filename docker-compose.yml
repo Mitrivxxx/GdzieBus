@@ -1,0 +1,51 @@
+services:
+  api:
+    build: ./api
+    container_name: gdziebus-api
+    restart: always
+    environment:
+      ASPNETCORE_URLS: http://+:5259
+      ConnectionStrings__Default: Host=db;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=${POSTGRES_DB}
+    depends_on:
+      - db
+    networks:
+      - gdziebus-net
+
+  web:
+    build:
+      context: .
+      dockerfile: web/dockerfile
+    container_name: gdziebus-web
+    restart: always
+    networks:
+      - gdziebus-net
+
+  nginx:
+    build: ./nginx
+    container_name: gdziebus-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+      - web
+    networks:
+      - gdziebus-net
+
+  db:
+    image: postgres:16
+    container_name: gdziebus-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - gdziebus-net
+
+networks:
+  gdziebus-net:
+
+volumes:
+  postgres_data:
