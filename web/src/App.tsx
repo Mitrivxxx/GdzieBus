@@ -1,12 +1,18 @@
-import "./index.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 
-
-export function App() {
+export default function App() {
   return (
-    <div className="app">
-
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {/* Wszystkie strony pod głównym layoutem */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
