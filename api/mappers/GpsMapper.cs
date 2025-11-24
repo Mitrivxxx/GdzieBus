@@ -11,10 +11,10 @@ namespace GdzieBus.Api.Mappers
             {
                 PositionId = Guid.NewGuid(),
                 VehicleId = dto.VehicleId,
-                Latitude = (decimal)dto.Latitude,
-                Longitude = (decimal)dto.Longitude,
-                SpeedKmh = (decimal)dto.SpeedKmh,
-                DirectionDegrees = (decimal)dto.DirectionDegrees,
+                Latitude = dto.Latitude,
+                Longitude = dto.Longitude,
+                SpeedKmh = dto.SpeedKmh,
+                DirectionDegrees = dto.DirectionDegrees,
                 Timestamp = DateTime.UtcNow,
                 IsOnline = true
             };

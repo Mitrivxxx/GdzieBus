@@ -20,32 +20,69 @@ namespace GdzieBus.Api.Services.Implementations
             _hub = hub;
         }
 
-        public async Task<GPSPosition> AddPositionAsync(GpsPositionDto dto)
+        public async Task<GPSPosition> UpdateLastPositionAsync(GpsPositionDto dto)
         {
-            // 1. Walidacja czy istnieje pojazd
-            var exists = await _db.Vehicles.AnyAsync(v => v.VehicleId == dto.VehicleId);
-            if (!exists)
-                throw new Exception("Vehicle does not exist.");
+            Console.WriteLine($"[SERVICE] Processing update for Vehicle: {dto.VehicleId}");
 
-            // 2. Mapowanie DTO → Entity
-            var entity = GpsMapper.ToEntity(dto);
+            // 1. Sprawdź czy pojazd istnieje, jeśli nie - utwórz go automatycznie
+            var vehicleExists = await _db.Vehicles.AnyAsync(v => v.VehicleId == dto.VehicleId);
+            if (!vehicleExists)
+            {
+                Console.WriteLine($"[SERVICE] Vehicle {dto.VehicleId} not found. Creating new...");
+                var newVehicle = new Vehicle
+                {
+                    VehicleId = dto.VehicleId,
+                    RegistrationNumber = $"NEW-{dto.VehicleId.ToString().Substring(0, 6)}", // Generujemy tymczasowy numer
+                    Status = "Active",
+                    VehicleType = "Unknown"
+                };
+                _db.Vehicles.Add(newVehicle);
+                await _db.SaveChangesAsync();
+                Console.WriteLine($"[SERVICE] Vehicle created.");
+            }
 
-            // 3. Zapis do bazy
-            _db.GPSPositions.Add(entity);
+            // Pobierz ostatnią pozycję
+            var last = await _db.GPSPositions
+                .FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId);
+
+            if (last == null)
+            {
+                Console.WriteLine($"[SERVICE] No existing GPS record. Creating new...");
+                last = new GPSPosition
+                {
+                    PositionId = Guid.NewGuid(),
+                    VehicleId = dto.VehicleId
+                };
+
+                _db.GPSPositions.Add(last);
+            }
+            else 
+            {
+                Console.WriteLine($"[SERVICE] Updating existing GPS record {last.PositionId}...");
+            }
+
+            // Nadpisz wartości
+            last.Latitude = dto.Latitude;
+            last.Longitude = dto.Longitude;
+            last.SpeedKmh = dto.SpeedKmh;
+            last.DirectionDegrees = dto.DirectionDegrees;
+            last.Timestamp = DateTime.UtcNow;
+
             await _db.SaveChangesAsync();
+            Console.WriteLine($"[SERVICE] Saved to DB.");
 
-            // 4. Emitowanie przez SignalR
+            // Real-time push
             await _hub.Clients.All.SendAsync("gpsUpdate", new
             {
-                vehicleId = entity.VehicleId,
-                latitude = entity.Latitude,
-                longitude = entity.Longitude,
-                speedKmh = entity.SpeedKmh,
-                directionDegrees = entity.DirectionDegrees,
-                timestamp = entity.Timestamp
+                vehicleId = last.VehicleId,
+                latitude = last.Latitude,
+                longitude = last.Longitude,
+                speedKmh = last.SpeedKmh,
+                directionDegrees = last.DirectionDegrees,
+                timestamp = last.Timestamp
             });
 
-            return entity;
+            return last;
         }
     }
 }

@@ -5,6 +5,6 @@ namespace GdzieBus.Api.Services.Interfaces
 {
     public interface IGpsPositionService
     {
-        Task<GPSPosition> AddPositionAsync(GpsPositionDto dto);
+        Task<GPSPosition> UpdateLastPositionAsync(GpsPositionDto dto);
     }
 }

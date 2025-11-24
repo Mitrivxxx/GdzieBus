@@ -18,12 +18,11 @@ namespace GdzieBus.Api.Controllers
             _service = service;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddPosition([FromBody] GpsPositionDto dto)
+        [HttpPost("update")]
+        public async Task<IActionResult> Update([FromBody] GpsPositionDto dto)
         {
-            var result = await _service.AddPositionAsync(dto);
-            return Ok(result.PositionId);
+            var result = await _service.UpdateLastPositionAsync(dto);
+            return Ok(new { status = "saved", vehicleId = result.VehicleId });
         }
     }
-
 }

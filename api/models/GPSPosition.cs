@@ -14,10 +14,10 @@ public class GPSPosition
     [ForeignKey(nameof(VehicleId))]
     public Vehicle? Vehicle { get; set; }
 
-    public decimal? Latitude { get; set; }
-    public decimal? Longitude { get; set; }
-    public decimal? SpeedKmh { get; set; }
-    public decimal? DirectionDegrees { get; set; }
+    public double? Latitude { get; set; }
+    public double? Longitude { get; set; }
+    public double? SpeedKmh { get; set; }
+    public double? DirectionDegrees { get; set; }
 
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
     public bool IsOnline { get; set; }
