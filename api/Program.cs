@@ -1,15 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using GdzieBus.Api.Data;
+using GdzieBus.Api.Services.Interfaces;
+using GdzieBus.Api.Services.Implementations;
+using GdzieBus.Api.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(5259);
-});
+builder.Services.AddScoped<IGpsPositionService, GpsPositionService>();
+builder.Services.AddSignalR();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -28,6 +29,7 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 app.MapControllers();
+app.MapHub<GpsHub>("/gpsHub");
 
 using var scope = app.Services.CreateScope();
 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
