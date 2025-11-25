@@ -17,6 +17,9 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/react": "19",
-    "@types/react-dom": "19"
+    "@types/react-dom": "19",
+    "@vitejs/plugin-react": "^5.1.1",
+    "sass": "^1.94.2",
+    "vite": "^7.2.4"
   }
 }
