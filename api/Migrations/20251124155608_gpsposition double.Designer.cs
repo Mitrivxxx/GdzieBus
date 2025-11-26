@@ -13,7 +13,7 @@ namespace api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20251124155608_gpsposition double")]
-    partial class gpspositiondouble
+    partial class GpsPositionDouble
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
