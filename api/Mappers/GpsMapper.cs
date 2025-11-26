@@ -19,6 +19,17 @@ namespace GdzieBus.Api.Mappers
                 IsOnline = true
             };
         }
+        public static GpsPositionDto ToDto(GPSPosition entity)
+        {
+            return new GpsPositionDto
+            {
+                VehicleId = entity.VehicleId,
+                Latitude = entity.Latitude ?? 0,
+                Longitude = entity.Longitude ?? 0,
+                SpeedKmh = entity.SpeedKmh ?? 0,
+                DirectionDegrees = entity.DirectionDegrees ?? 0,
+                Timestamp = entity.Timestamp
+            };
+        }
     }
-
 }

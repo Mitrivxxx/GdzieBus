@@ -84,5 +84,19 @@ namespace GdzieBus.Api.Services.Implementations
 
             return last;
         }
+    
+        public async Task<GpsPositionDto?> GetLastPositionAsync(Guid vehicleId)
+        {
+            var last = await _db.GPSPositions
+                .AsNoTracking()
+                .FirstOrDefaultAsync(v => v.VehicleId == vehicleId);
+
+            if (last == null)
+            {
+                return null;
+            }
+
+            return GpsMapper.ToDto(last);
+        }
     }
 }

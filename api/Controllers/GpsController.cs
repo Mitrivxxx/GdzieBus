@@ -24,5 +24,16 @@ namespace GdzieBus.Api.Controllers
             var result = await _service.UpdateLastPositionAsync(dto);
             return Ok(new { status = "saved", vehicleId = result.VehicleId });
         }
+  
+        [HttpGet("last-position/{vehicleId}")]
+        public async Task<IActionResult> GetLastPosition(Guid vehicleId)
+        {
+            var position = await _service.GetLastPositionAsync(vehicleId);
+            if (position == null)
+            {
+                return NotFound();
+            }
+            return Ok(position);
+        }
     }
 }
