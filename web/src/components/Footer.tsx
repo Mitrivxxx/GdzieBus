@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer >
+    <footer  >
       © 2025 Moja Aplikacja
     </footer>
   );
