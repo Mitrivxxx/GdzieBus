@@ -4,18 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bunx --bun vite", 
+    "dev": "bunx --bun vite",
     "build": "vite build",
     "serve": "vite preview"
   },
   "dependencies": {
     "@playwright/test": "^1.56.1",
+    "@vis.gl/react-google-maps": "^1.7.1",
     "react": "19",
     "react-dom": "19",
     "react-router-dom": "7"
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/google.maps": "^3.58.1",
     "@types/react": "19",
     "@types/react-dom": "19",
     "@vitejs/plugin-react": "^5.1.1",

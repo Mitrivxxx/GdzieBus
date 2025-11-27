@@ -3,8 +3,15 @@ using GdzieBus.Api.Data;
 using GdzieBus.Api.Services.Interfaces;
 using GdzieBus.Api.Services.Implementations;
 using GdzieBus.Api.Hubs;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -20,6 +27,7 @@ options.UseNpgsql(connectionString, npgsqlOptions =>
 
 var app = builder.Build();
 
+app.UseForwardedHeaders();
 
 if (app.Environment.IsDevelopment())
 {

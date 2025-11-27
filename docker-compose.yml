@@ -4,17 +4,20 @@ services:
     container_name: gdziebus-api
     restart: always
     environment:
-      ASPNETCORE_URLS: http://+:5259
+      ASPNETCORE_URLS: http://+:8080
       ConnectionStrings__Default: Host=db;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=${POSTGRES_DB}
     depends_on:
       - db
     networks:
       - gdziebus-net
 
+  # FRONTEND
   web:
     build:
-      context: .
-      dockerfile: web/dockerfile
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        - VITE_GOOGLE_MAPS_API_KEY=${VITE_GOOGLE_MAPS_API_KEY}
     container_name: gdziebus-web
     restart: always
     networks:
@@ -22,9 +25,12 @@ services:
 
   nginx:
     build: ./nginx
-    container_name: gdziebus-nginx
+    container_name: gdziebus-gateway
+    restart: always
     ports:
       - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - api
       - web
