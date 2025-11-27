@@ -14,7 +14,7 @@ RUN bun run build
 # Etap produkcyjny
 FROM nginx:1.27-alpine
 WORKDIR /usr/share/nginx/html
-
+ 
 # Usuwamy domyślną konfigurację Nginx oraz domyślne pliki statyczne
 RUN rm /etc/nginx/conf.d/default.conf && rm -rf /usr/share/nginx/html/*
 
