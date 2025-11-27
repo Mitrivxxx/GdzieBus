@@ -4,6 +4,8 @@ using GdzieBus.Api.Services.Interfaces;
 using GdzieBus.Api.Services.Implementations;
 using GdzieBus.Api.Hubs;
 using Microsoft.AspNetCore.HttpOverrides;
+using api.Services.interfaces;
+using api.Services.implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGpsPositionService, GpsPositionService>();
+builder.Services.AddScoped<IStop, StopService>();
 builder.Services.AddSignalR();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
