@@ -7,26 +7,27 @@ type AdminPanelProps = {
 
 export default function AdminPanel({ activeSection, onSectionChange }: AdminPanelProps) {
   return (
-    <div style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "80%",
-      height: "100%",
-      backgroundColor: "#f0f0f0",
-      zIndex: 10,
-      padding: "1rem",
-      boxShadow: "2px 0 5px rgba(0,0,0,0.3)"
-    }}>
+    <div>
       <h2>Panel Admina</h2>
-      <nav style={{ marginBottom: "1rem" }}>
-        <button onClick={() => onSectionChange("addStop")} style={{ marginRight: "1rem" }}>Dodaj przystanek</button>
-        {/* inne sekcje admina */}
-      </nav>
+      
+      {activeSection === "none" && (
+        <nav style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <button 
+            onClick={() => onSectionChange("addStop")} 
+            style={{ padding: "10px", cursor: "pointer" }}
+          >
+            Dodaj przystanek
+          </button>
+          {/* Tutaj możesz dodać więcej przycisków w przyszłości */}
+        </nav>
+      )}
 
-      <div>
-        {activeSection === "addStop" && <AddStopForm />}
-      </div>
+      {activeSection === "addStop" && (
+        <div>
+          <h3 style={{ marginTop: 0 }}>Dodawanie przystanku</h3>
+          <AddStopForm onBack={() => onSectionChange("none")} />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { APIProvider, Map as GoogleMap, AdvancedMarker, InfoWindow } from "@vis.gl/react-google-maps";
+import { APIProvider, Map as GoogleMap, AdvancedMarker, InfoWindow, useMap, Pin } from "@vis.gl/react-google-maps";
 import { getLastPosition } from "../api/gps";
+import { getAllStops, type StopDto } from "../api/stops";
 
 const center = { lat: 52.237049, lng: 21.017532 };
 const HARDCODED_VEHICLE_ID = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
@@ -14,12 +15,32 @@ interface GpsPosition {
   timestamp: string;
 }
 
+// Komponent pomocniczy do centrowania mapy
+const MapUpdater = ({ position }: { position: { lat: number, lng: number } | null }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (map && position) {
+      map.panTo(position);
+    }
+  }, [map, position]);
+
+  return null;
+};
+
 export default function Map() {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string;
   const mapId = "DEMO_MAP_ID"; 
 
   const [position, setPosition] = useState<GpsPosition | null>(null);
+  const [stops, setStops] = useState<StopDto[]>([]);
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
+
+  useEffect(() => {
+    getAllStops()
+      .then(setStops)
+      .catch((err) => console.error("Failed to fetch stops", err));
+  }, []);
 
   useEffect(() => {
     getLastPosition(HARDCODED_VEHICLE_ID)
@@ -28,6 +49,8 @@ export default function Map() {
       })
       .catch((err) => console.error("Failed to fetch position", err));
   }, []);
+
+ 
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -39,9 +62,21 @@ export default function Map() {
           mapTypeControl={false}
           streetViewControl={false}
           style={{ width: "100%", height: "100%" }}
-          // Jeśli mamy pozycję, centrujemy na niej mapę (opcjonalne, ale przydatne)
-          center={position ? { lat: position.latitude, lng: position.longitude } : center}
         >
+          <MapUpdater position={position ? { lat: position.latitude, lng: position.longitude } : null} />
+          
+          {stops.map((stop, index) => (
+            stop.latitude && stop.longitude && (
+              <AdvancedMarker
+                key={index}
+                position={{ lat: stop.latitude, lng: stop.longitude }}
+                title={stop.stopName}
+              >
+                <Pin background={"#0f9d58"} borderColor={"#006425"} glyphColor={"#ffffff"} />
+              </AdvancedMarker>
+            )
+          ))}
+
           {position && (
             <>
               <AdvancedMarker 

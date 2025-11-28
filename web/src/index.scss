@@ -1,0 +1,28 @@
+/* Global Error Styles */
+
+// Styl dla komunikatu błędu pod polem formularza
+.error-message {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+// Styl dla ogólnego alertu błędu (np. błąd serwera)
+.error-alert {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+// Styl dla pola input z błędem
+input.input-error {
+  border-color: #d32f2f;
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
+  }
+}

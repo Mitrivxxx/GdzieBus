@@ -24,3 +24,11 @@ export async function addStop(stop: StopDto) {
 
   return response.json();
 }
+
+export async function getAllStops(): Promise<StopDto[]> {
+  const response = await fetch("/api/stop");
+  if (!response.ok) {
+    throw new Error("Failed to fetch stops");
+  }
+  return response.json();
+}
