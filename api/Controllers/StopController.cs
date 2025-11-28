@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/stop")]
     public class StopController : ControllerBase
     {
         private readonly IStop _stopService;
@@ -22,8 +22,19 @@ namespace api.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStop(StopDto dto)
         {
-            var stop = await _stopService.AddStop(dto);
-            return Created($"/stops/{stop.StopName}", stop);
+            try
+            {
+                var stop = await _stopService.AddStop(dto);
+                return Created($"/stops/{Uri.EscapeDataString(stop.StopName)}", stop);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("23505"))
+                {
+                    return Conflict($"Przystanek o kodzie '{dto.StopCode}' już istnieje.");
+                }
+                throw;
+            }
         }
 
         [HttpGet]
