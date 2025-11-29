@@ -21,6 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGpsPositionService, GpsPositionService>();
 builder.Services.AddScoped<IStop, StopService>();
 builder.Services.AddSignalR();
+builder.Services.AddHealthChecks();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -31,6 +32,7 @@ options.UseNpgsql(connectionString, npgsqlOptions =>
 var app = builder.Build();
 
 app.UseForwardedHeaders();
+
 
 if (app.Environment.IsDevelopment())
 {
