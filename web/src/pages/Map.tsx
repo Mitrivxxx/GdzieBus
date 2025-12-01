@@ -61,6 +61,7 @@ export default function Map() {
           mapId={mapId}
           mapTypeControl={false}
           streetViewControl={false}
+          fullscreenControl={false}
           style={{ width: "100%", height: "100%" }}
         >
           <MapUpdater position={position ? { lat: position.latitude, lng: position.longitude } : null} />

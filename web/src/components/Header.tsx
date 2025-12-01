@@ -2,15 +2,15 @@ import { Link } from "react-router-dom";
 
   type HeaderProps = {
     onAdminClick: () => void;
+    onLoginClick: () => void;
   };
-export default function Header({ onAdminClick }: HeaderProps) {
+export default function Header({ onAdminClick, onLoginClick }: HeaderProps) {
 
   return (
     <header>
       <nav>
-        <Link to="/">Strona główna</Link>
-        <button onClick={onAdminClick} style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>Admin Panel</button>
-        <Link to="/login">Zaloguj się</Link>
+        <button onClick={onAdminClick}> Admin Panel</button>
+        <button onClick={onLoginClick}> Zaloguj</button>
       </nav>
     </header>
   );

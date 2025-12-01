@@ -7,9 +7,10 @@ export interface StopDto {
   city?: string;
   zone?: string;
 }
+const API_STOP = "api/stop";
 
 export async function addStop(stop: StopDto) {
-  const response = await fetch("/api/stop", {
+  const response = await fetch(API_STOP, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,7 +27,7 @@ export async function addStop(stop: StopDto) {
 }
 
 export async function getAllStops(): Promise<StopDto[]> {
-  const response = await fetch("/api/stop");
+  const response = await fetch(API_STOP);
   if (!response.ok) {
     throw new Error("Failed to fetch stops");
   }

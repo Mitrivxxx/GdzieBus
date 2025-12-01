@@ -1,55 +1,64 @@
-import { Outlet, useLocation } from "react-router-dom";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Map from "../pages/Map";
-import "./MainLayout.scss"; // <--- IMPORT STYLI
 import { useState } from "react";
-import AdminPanel from "@/components/AdminPanel";
+import Header from "../components/Header";
+import Map from "../pages/Map";
+import AdminPanel, { type AdminSection } from "@/components/AdminPanel";
 import MainPanel from "@/components/MainPanel";
+import LoginPanel from "@/components/LoginPanel";
+import "./MainLayout.scss";
 
 export default function MainLayout() {
-  const location = useLocation();
-  const isLoginOpen = location.pathname === "/login";
   const [isAdminOpen, setAdminOpen] = useState(false);
-  const [activeAdminSection, setActiveAdminSection] = useState<"none" | "addStop">("none");
+  const [isLoginOpen, setLoginOpen] = useState(false);
+  const [activeAdminSection, setActiveAdminSection] = useState<AdminSection>("dashboard");
+
+  const handleToggleAdmin = () => {
+    setAdminOpen((prev) => !prev);
+    if (isLoginOpen) setLoginOpen(false);
+  };
+
+  const handleToggleLogin = () => {
+    setLoginOpen((prev) => !prev);
+    if (isAdminOpen) setAdminOpen(false);
+  };
 
   return (
     <div className="app-layout">
-      <header className="app-layout__header">
-        <Header onAdminClick={() => { setAdminOpen(!isAdminOpen) }} />
-      </header>
-
       <main className="app-layout__main">
-
         <div className="app-layout__map-container">
           <Map />
-                  <div className="app-layout__panels">
-          <div className="app-layout__main-panel">
-            <MainPanel />
-          </div>
-          {isAdminOpen && (
-            <div className="app-layout__admin-panel">
-              <AdminPanel
-                activeSection={activeAdminSection}
-                onSectionChange={setActiveAdminSection}
-              />
+
+          <header className="app-layout__header">
+            <Header 
+              onAdminClick={handleToggleAdmin} 
+              onLoginClick={handleToggleLogin}
+            />
+          </header>
+
+          <div className="app-layout__panels">
+            <div className="app-layout__main-panel">
+              <MainPanel />
             </div>
-          )}
-        </div>
-          {isLoginOpen && (
-            <div className="login-modal">
-              <div className="login-modal__content">
-                <Outlet />
+            
+            {isAdminOpen && (
+              <div className="app-layout__admin-panel">
+                <AdminPanel
+                  activeSection={activeAdminSection}
+                  onSectionChange={setActiveAdminSection}
+                />
               </div>
-            </div>
-          )}
+            )}
+
+            {isLoginOpen && (
+              <div className="app-layout__login-panel">
+                <LoginPanel 
+                  onLogin={() => { console.log("Logged in"); setLoginOpen(false); }}
+                  onClose={() => setLoginOpen(false)}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </main>
-
-      <footer className="app-layout__footer">
-        <Footer />
-      </footer>
     </div>
-
   );
 }
