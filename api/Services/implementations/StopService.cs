@@ -1,31 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using GdzieBus.Api.Data;
-using Microsoft.AspNetCore.SignalR;
 using GdzieBus.Api.Services.Interfaces;
 using GdzieBus.Api.Mappers;
-using GdzieBus.Api.Hubs;
-using GdzieBus.Api.Models;
-using api.DTOs;
-using api.Mappers;
+using GdzieBus.Api.DTOs;
 using Microsoft.EntityFrameworkCore;
 
-using api.Services.interfaces;
 
-namespace api.Services.implementations
+namespace GdzieBus.Api.Services.Implementations
 {
     public class StopService : IStop
     {
         private readonly AppDbContext _context;
 
-        private readonly IHubContext<GpsHub> _hub;
-
-        public StopService(AppDbContext context, IHubContext<GpsHub> hub)
+        public StopService(AppDbContext context)
         {
             _context = context;
-            _hub = hub;
         }
 
         public async Task<StopDto> AddStop(StopDto dto)

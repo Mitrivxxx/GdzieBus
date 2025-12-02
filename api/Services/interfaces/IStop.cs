@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.DTOs;
+using GdzieBus.Api.DTOs;
 
-namespace api.Services.interfaces
+namespace GdzieBus.Api.Services.Interfaces
 {
     public interface IStop
     {

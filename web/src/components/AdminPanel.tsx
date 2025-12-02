@@ -51,7 +51,10 @@ export default function AdminPanel({ activeSection, onSectionChange }: AdminPane
         )}
         {activeSection === "stops" && (
             <div>
+              <div className="admin-panel__header">
                 <h2 className="admin-panel__section-title">Zarządzanie Przystankami</h2>
+                <button onClick={() => alert("Otwieranie formularza dodawania przystanku")}>Dodaj Przystanek</button>
+              </div>  
                 <div className="admin-list">
                     {stops.map((stop, index) => (
                         <div key={index} className="admin-list__item">
@@ -60,6 +63,8 @@ export default function AdminPanel({ activeSection, onSectionChange }: AdminPane
                                 <div style={{ fontSize: "0.85rem", color: "#666" }}>
                                     {stop.city} {stop.address && `, ${stop.address}`}
                                 </div>
+                                <button onClick={() => alert(`Edycja przystanku: ${stop.stopName}`)}>Edytuj</button>
+                                <button onClick={() => alert(`Usuwanie przystanku: ${stop.stopName}`)}>Usuń</button>
                             </div>
                         </div>
                     ))}
@@ -70,7 +75,7 @@ export default function AdminPanel({ activeSection, onSectionChange }: AdminPane
         {activeSection === "buses" && (
             <div>
                 <h2 className="admin-panel__section-title">Zarządzanie Autobusami</h2>
-                {/*dodaj, edytuj, usun*/}
+                {/*dupa dupa*/}
             </div>
         )}
       </div>

@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.DTOs;
-using api.Services.interfaces;
+using GdzieBus.Api.DTOs;
+using GdzieBus.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Controllers
+namespace GdzieBus.Api.Controllers
 {
     [ApiController]
     [Route("api/stop")]
@@ -25,7 +25,7 @@ namespace api.Controllers
             try
             {
                 var stop = await _stopService.AddStop(dto);
-                return Created($"/stops/{Uri.EscapeDataString(stop.StopName)}", stop);
+                return Created($"/stops/{Uri.EscapeDataString(stop.StopName ?? string.Empty)}", stop);
             }
             catch (Exception ex)
             {

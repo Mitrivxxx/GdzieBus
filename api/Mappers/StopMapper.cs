@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.DTOs;
+using GdzieBus.Api.DTOs;
 using GdzieBus.Api.Models;
 
-namespace api.Mappers
+namespace GdzieBus.Api.Mappers
 {
     public class StopMapper
     {
