@@ -6,5 +6,6 @@ namespace GdzieBus.Api.Services.Interfaces
     {
         Task<StopDto> AddStop(StopDto dto);
         Task<IEnumerable<StopDto>> GetAllStops();
+        Task<StopDto> DeleteStop(string StopName);
     }
 }

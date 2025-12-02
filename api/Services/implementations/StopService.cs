@@ -35,5 +35,16 @@ namespace GdzieBus.Api.Services.Implementations
             return stops.Select(StopMapper.ToDto);
         }
 
+        public async Task<StopDto> DeleteStop(string stopName)
+        {
+            var stop = await _context.Stops
+                .FirstOrDefaultAsync(s => s.StopName == stopName);
+            if (stop == null)
+                throw new KeyNotFoundException($"Przystanek o nazwie '{stopName}' nieznaleziono.");
+            _context.Stops.Remove(stop);
+            await _context.SaveChangesAsync();
+
+            return StopMapper.ToDto(stop);
+        }
     }
 }

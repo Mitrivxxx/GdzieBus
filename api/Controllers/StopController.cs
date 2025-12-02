@@ -43,5 +43,12 @@ namespace GdzieBus.Api.Controllers
             var stops = await _stopService.GetAllStops();
             return Ok(stops);
         }
+
+        [HttpDelete("{stopName}")]
+        public async Task<IActionResult> DeleteStop(string stopName)
+        {
+            var stop = await _stopService.DeleteStop(stopName);
+            return Ok(stop);
+        }
     }
 }
